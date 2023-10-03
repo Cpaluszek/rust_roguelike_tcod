@@ -19,6 +19,7 @@ struct Tcod {
     con: Offscreen,
 }
 
+#[derive(Debug)]
 struct Object {
     x: i32,
     y: i32,
@@ -40,6 +41,34 @@ impl Object {
         con.set_default_foreground(self.color);
         con.put_char(self.x, self.y, self.char, BackgroundFlag::None);
     }
+}
+
+#[derive(Clone, Copy, Debug)]
+struct Tile {
+    blocked: bool,
+    block_sight: bool,
+}
+
+impl Tile {
+    pub fn empty() -> Self {
+        Tile {
+            blocked: false,
+            block_sight: false,
+        }
+    }
+
+    pub fn wall() -> Self {
+        Tile {
+            blocked: true,
+            block_sight: true,
+        }
+    }
+}
+
+type Map = Vec<Vec<Tile>>;
+
+struct Game {
+    map: Map,
 }
 
 fn main() {
